@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react'
 import './Navbar.css'
 import { assets } from '../../assets/assets'
 import { Link } from 'react-router-dom'
-import {storeContext} from '../../Context/StoreContext'
+import {StoreContext} from '../../Context/StoreContext'
 const Navbar = ({setShowLogin}) => {
 
 const [menu,setMenu] = useState("home");
-const {getTotalCartAmount} = useContext(storeContext)
+const {getTotalCartAmount} = useContext(StoreContext)
 
 
   return (
