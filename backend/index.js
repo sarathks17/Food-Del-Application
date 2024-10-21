@@ -1,8 +1,13 @@
+import dotenv from 'dotenv'
+dotenv.config();
+
+
 import express from 'express'
 import cors from 'cors'
 import { connectDB } from './Config/db.js'
 import userRouter from "./routes/userRoutes.js"
-import 'dotenv/config'
+
+import orderRouter from './routes/orderRoute.js'
 
 
 const app = express()
@@ -14,6 +19,7 @@ app.use(cors())
 connectDB();
 
 app.use("/api/user",userRouter)
+app.use("/api/order",orderRouter)
 
 
 app.get("/",(req,res)=> {
