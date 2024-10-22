@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../Context/StoreContext'
 import axios from 'axios'
@@ -30,7 +30,7 @@ const placeOrder = async (event) => {
      let orderItems = [];
      food_list.map((item)=>{
       if(cartItems[item._id]>0){
-        let itemInfo = item;
+        let itemInfo = {...item};
         itemInfo["quantity"] = cartItems[item._id];
         orderItems.push(itemInfo)
       }
@@ -50,6 +50,16 @@ const placeOrder = async (event) => {
   }
     
 }
+
+const navigate = useNavigate()
+
+useEffect(()=> {
+  if(!token){
+   navigate('/cart')
+  }else if(getTotalCartAmount()===0){
+    navigate('/cart')
+  }
+},[token])
 
 
 
