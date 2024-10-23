@@ -12,7 +12,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY )
 //FUNCTION TO PLACE AN ORDER
 const placeOrder = async (req,res)=> {
 //SETTING FRONTEND URL
-const fromtend_url = "http://localhost:5173"
+const fromtend_url = "https://food-delevery-application-frontend.onrender.com/"
     
     try{
  //CREATING NEW ORDER
