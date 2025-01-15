@@ -18,8 +18,14 @@ app.use(cors())
 
 connectDB();
 
+app.use(express.static(path.join(__dirname, 'frontend/build')));
+
 app.use("/api/user",userRouter)
 app.use("/api/order",orderRouter)
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+  });
 
 
 app.get("/",(req,res)=> {
