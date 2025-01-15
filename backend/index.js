@@ -6,8 +6,14 @@ import express from 'express'
 import cors from 'cors'
 import { connectDB } from './Config/db.js'
 import userRouter from './routes/userRoutes.js'
-
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import orderRouter from './routes/orderRoute.js'
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 
 const app = express()
@@ -19,6 +25,8 @@ app.use(cors())
 connectDB();
 
 app.use(express.static(path.join(__dirname, 'frontend/build')));
+
+
 
 app.use("/api/user",userRouter)
 app.use("/api/order",orderRouter)
