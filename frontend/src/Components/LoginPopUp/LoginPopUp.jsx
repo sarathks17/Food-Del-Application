@@ -3,48 +3,43 @@ import './LoginPopUp.css'
 import { assets } from '../../assets/assets'
 import axios from 'axios'
 import { StoreContext } from '../../Context/StoreContext'
-const LoginPopUp = ({setShowLogin}) => {
-  const {url,setToken} = useContext(StoreContext)
-
-const [currentState,setCurrentState] = useState("Signup")
-
-const [data,setData] = useState({
-  name:'',
-  email:'',
-  password:''
-})
-
-const onChangeHandler = (event) => {
-  setData({
-    ...data,
-    [event.target.name]: event.target.value,
+const LoginPopUp = ({ setShowLogin }) => {
+  const { url, setToken } = useContext(StoreContext);
+  const [currentState, setCurrentState] = useState("Sign up");
+  const [data, setData] = useState({
+    name: '',
+    email: '',
+    password: ''
   });
-};
 
+  const onChangeHandler = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
 
+  const onLogin = async (event) => {
+    event.preventDefault();
 
+    const endpoint = currentState === "Sign up" ? "register": "login";
+    let newUrl = `${url}/api/user/${endpoint}`;
 
-const onLogin = async (event) => {
-  event.preventDefault()
-  let newUrl = url;
-  if(currentState === "Login"){
-      newUrl += "/api/user/login"
-  }else{
-    newUrl += "/api/user/register"
-  }
+    try {
+      const response = await axios.post(newUrl, data);
 
-  const response = await axios.post(newUrl,data);
-
-  if(response.data.success){
-   
-    setToken(response.data.token);
-    localStorage.setItem("token",response.data.token)
-    setShowLogin(false)
-  }else{
-    alert(response.data.mesage)
-  }
-}
-
+      if (response.data.success) {
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        setShowLogin(false);
+      } else {
+        alert(response.data.message); // Ensure the key is "message"
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      alert("An error occurred while processing your request. Please try again.");
+    }
+  };
 
 
 
@@ -66,7 +61,7 @@ const onLogin = async (event) => {
           <input type='password' placeholder='Your password' required name='password' value={data.password} onChange={onChangeHandler}/>
 
         </div>
-        <button type='submit'>{currentState==="Sign Up"?"Create account":"Login"}</button>
+        <button type='submit'>{currentState ==="Sign Up"?"Create account":"Login"}</button>
         <div className="login-popup-condition">
           <input type='checkbox'required/>
           <p>By continuing, i agree to the terms of use & privacy policy.</p>
